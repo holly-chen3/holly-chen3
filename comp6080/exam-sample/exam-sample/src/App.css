@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+    height: 100vh;
+}
+
+#root > div {
+    display: flex;
+    height: 100vh;
+}
+
+header {
+    height: 100px;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img {
+    height: 2rem;
+    width: 2rem;
+}
+
+h1 {
+    color: red;
+    font-size: 2em;
+}
+
+#footer {
+    height: 50px;
+    width: 100vw;
+    position: absolute;
+    background-color: #999999;
+    left: 0;
+    bottom: 0;
+}
+
+.screen {
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#blanko-squares {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#square {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border-style: solid;
+    border-color: hsl(205, 84%, 39%);
+    color: hsl(205, 84%, 39%);
+}
+
+#grid {
+    width: 300px;
+    height: 300px;
+}
+.cell-image {
+    width: 80px;
+    height: 80px;
+}
+
+#tetro-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    margin: 20px 20px 100px 20px;
+}
+
+.tetro-cell {
+    border: 1px solid #333333 ;
+}
+
+.active-tetro {
+    background-color: brown;
+}

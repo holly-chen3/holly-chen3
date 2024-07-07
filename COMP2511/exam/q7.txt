@@ -1,0 +1,2 @@
+b and f. The most semantically correct would be f, since predicates always have to return a boolean, whereas with 
+function, it is able to return anything, if it was not specified. 

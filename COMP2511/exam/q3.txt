@@ -1,0 +1,5 @@
+I would use the template deisgn to model this behaviour. This is because there are some methods that would be the same, 
+e.g. same flow of work, etc, and some that are different. The key characteristics of the template design is 
+having concrete methods that are the same and already implemented throughout the three classes, but also
+having abstract methods that will change depending on the separate class. Additionally, the template design is
+static, which means that once you create a instantiation, you cannot change the class later on, like the strategy pattern.

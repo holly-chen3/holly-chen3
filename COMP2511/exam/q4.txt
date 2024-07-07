@@ -1,0 +1,2 @@
+pull, since he is the observer in this situation. Once the subject pushes out a notification to him, 
+he will pull the update and try to get his tickets. 

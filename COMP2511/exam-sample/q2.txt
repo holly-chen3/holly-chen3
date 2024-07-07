@@ -1,0 +1,11 @@
+b. Big design up front is not feasible, too many unknown unknowns, requirements adapt.
+
+d. In software engineering, we must always write tests for the software before 
+we actually implement it. This helps to make sure all edge cases are checked for
+and determines when the prototype is perfect. Testing should be done throughout, not just
+at the end.
+
+e. Agile software development stresses the importance of iterative software engineering. 
+As with any type of software programming, Object-Oriented Programming should also go through
+the iterative approach - through identifying code smells and design smells and applying 
+refactoring techniques to improve the readability and functionality of the code.

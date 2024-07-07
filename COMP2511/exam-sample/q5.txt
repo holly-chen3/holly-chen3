@@ -1,0 +1,26 @@
+Part A
+The code smell here is the duplicate code of getBombs, getFloorSwitches and getBoulders.
+In order to get rid of the code smell, we must use a generic type method.
+With this generic method, it would look like: 
+public List<?> getItem(String type) {
+    List<?> items = new ArrayList<>();
+    for (Entity entity: entities) {
+        if (entity.getType().equals("type")) {
+            items.add(entity);
+        }
+    }
+}
+Additionally, the redundant code if (item != null) {} does not do anything, so 
+we should get rid of that part of the code.
+Instead of if (!(item instanceof Bomb)) {
+    return;
+}
+we should just do if (item instanceof Bomb) {
+    ((Bomb)item).placeBomb();
+}
+
+Part B
+The code smell here is feature envy, since the whole method is calling the methods 
+from the same class of filetransfer. In order to resolve this code smell, 
+I would use the extract method to extract all the code within the for loop to 
+the FileTransfer class by making a new method for it. 

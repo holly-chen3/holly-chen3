@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior: smooth;
+}
+
+body 
+{
+    background: linear-gradient(to bottom, rgb(253, 194, 183), pink,rgb(225, 198, 255), rgb(187, 187, 248));
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+header
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10000;
+}
+header .title 
+{
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+header ul 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header ul li 
+{
+    list-style: none;
+    margin-left: 30px;
+}
+
+header ul li a 
+{
+    text-decoration: none;
+    padding: 6px 15px;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 20px;
+}
+
+header ul li a:hover,
+header ul li a.active 
+{
+    background: white;
+    color: rgb(225, 198, 255);
+}
+
+section
+{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+section::before
+{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, pink, transparent);
+    z-index: 1000;
+}
+section img
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#text 
+{
+    position: absolute;
+    right: -650px;
+    color: rgb(187, 187, 248);
+    white-space: nowrap;
+    font-size: 7.5vw;
+    z-index: 9;
+}
+
+#btn 
+{
+    position: absolute;
+    background: white;
+    color:rgb(225, 198, 255);
+    border-radius: 20px;
+    text-decoration: none;
+    padding: 6px 15px;
+    font-size: 1.2em;
+}
+.paragraph 
+{
+    position: relative;
+    padding: 100px;
+}
+
+.paragraph p {
+    line-height: 1.8em;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-style: normal;
+    font-size: large;
+    color:white;
+}
+
+.wallpaper {
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.template {
+    position: relative;
+    width: 320px;
+    height: 580px;
+    background: pink;
+    border-radius: 20px;
+    margin: 70px;
+    overflow: hidden;
+}
+
+.template .heart {
+    border-radius: 20px;
+    height: 580px;
+    width: 320px;
+}
+
+.template:hover{
+    transform: rotate(-5deg);
+}
+.template .phone {
+    position: relative;
+    top: -20px;
+    left: 50px;
+    opacity: 0;
+    margin-top: 15px;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 20px;
+    text-transform: uppercase;
+    color: white;
+    padding: 6px 15px;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: 0.5%;
+}
+
+.template:hover .phone {
+    top: -70px;
+    opacity: 1;
+}
+#contact {
+    color: white;
+    text-align: center;
+}
+.newsletter 
+{
+    position: relative;
+    background: white;
+    width: 700px;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: block;
+    margin: auto;
+}
+
+.newsletter .signup {
+    position: relative;
+    display: flex;
+    margin: auto;
+    overflow: hidden;
+    width: 400px;
+    height: 60px;
+    top: 60px;
+}
+
+.newsletter .signup input {
+    width: 100%;
+    border: 1px solid pink;
+    padding: 15px;
+    outline: none;
+    font-size: 18px;
+    border-radius: 20px;
+}
+
+.newsletter .signup input[type="submit"] {
+    width: 60%;
+    background: pink;
+    color: white;
+    margin: auto;
+}

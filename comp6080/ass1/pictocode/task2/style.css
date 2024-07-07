@@ -1,0 +1,176 @@
+* {
+    color: white;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+body {
+    margin: 0px;
+    height: 100vh;
+}
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    height: 100px;
+    margin: 12px 28px 25px 28px;
+}
+.search {
+    background-color: rgb(244,244,244);
+    padding: 30px;
+    padding-left: 24px;
+    color: rgb(147,51,142);
+    font-size: 32px;
+    gap: 0;
+}
+#car {
+    padding-left: 15px;
+}
+.search-car {
+    background-color: rgb(244,244,244);
+    font-size: 26px;
+    color: rgb(82, 88, 99);
+    width: 500px;
+    font-weight: 300;
+}
+#s-icon{
+    padding: 34px 32px 0px 28px;
+}
+.search > svg {
+    width: 37px;
+    height: 37px;
+}
+.main {
+    background-image: url(assets/background.png);
+    background-position: center top;
+    background-size: cover;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.welcome {
+    font-size: 44px;
+    font-weight: bold;
+    padding: 48px;
+    line-height: 1.4; 
+    padding-bottom: 79px;
+    letter-spacing: 0.25px;
+}
+input {
+    border: none;
+}
+.calendar {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.calendar-row {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(244,244,244);
+    gap: 45px;
+}
+.cal {
+    padding: 20px;
+}
+.cal-icon {
+    padding: 20px;
+    padding-top: 30px;
+}
+.date-time {
+    background-color: rgb(244,244,244);
+    font-size: 27.5px;
+    font-weight: 200;
+    padding-top: 15px;
+    width: 200px;
+}
+img {
+    width: 42px;
+    height: 44px;
+}
+.parking-options {
+    background-color: rgb(203,75,14);
+    color: white;
+    margin-top: 9px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#option-title {
+    padding: 37px 10px 34px 10px;
+    font-size: 24px;
+    font-weight: 200;
+}
+#white-arrow {
+    margin-top: 35px;
+}
+button {
+    border: none;
+}
+.book-parking {
+    background-color: white;
+    padding: 10px;
+    width: 771px;
+    height: 416px;
+    column-gap: 10px;
+}
+.parking-title {
+    color: black;
+    padding: 20px 30px 25px;
+    font-weight: bold;
+    font-size: 42px;
+}
+.invisible {
+    background-color: white;
+}
+.box {
+    height: 105px;
+    width: 370px;
+}
+.book-now {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 7px;
+    padding: 25px 50px 25px 100px;
+    transform: scale(1.02, 1);
+    margin-left: 12px;
+}
+.save {
+    color: black;
+    font-weight: 600;
+    font-size: 30px;
+}
+svg {
+    width: 37px;
+    height: 30px;
+}
+.purple-arrow {
+    padding: 35px 32px;
+    background-color: rgb(147,51,142);
+    font-weight: 700;
+    margin: 80px 32px 76px 0px;
+}
+.col-container {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 70px 0px 20px 0px;
+    line-height: 1.4;
+}
+.col-container h1 {
+    font-size: 57px;
+    letter-spacing: 1px;
+    margin: 0px;
+}
+.col-container h5 {
+    font-size: 22px;
+    margin: 0px;
+}
+#shop-for-more {
+    height: 255px;
+    width: 785px;
+    gap: 29px;
+}

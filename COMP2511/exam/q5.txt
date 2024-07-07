@@ -1,0 +1,8 @@
+a) One code smell is magic numbers (i.e. 3000 and 2000). This should be changed to constants, 
+so the reader understands what these numbers are. Another code smell is feature envy,
+it is calling all the methods from the satellite class. This is indicative of a bad design, 
+and should be moved to the satellite class. 
+
+b) The code smell is is long parameters. This is indicative of design smell of high coupling,
+as there are so many variables being passed in, resulting in a change of one variable leading to 
+many other changes. 

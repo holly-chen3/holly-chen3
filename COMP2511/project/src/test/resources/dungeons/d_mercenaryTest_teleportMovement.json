@@ -1,0 +1,47 @@
+{
+    "entities": [
+        {
+            "type" : "player",
+            "x" : 0,
+            "y" : 1
+        },
+        {
+            "type" : "treasure",
+            "x" : 0,
+            "y" : 1
+        },
+        {
+            "type": "mercenary",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "type": "exit",
+            "x": 4,
+            "y": 2
+        },
+        {
+            "type": "portal",
+            "colour": "RED",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "type": "portal",
+            "colour": "RED",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "goal-condition": {"goal": "exit"}
+}

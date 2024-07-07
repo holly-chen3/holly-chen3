@@ -1,0 +1,36 @@
+{
+    "entities": [
+        {
+            "type": "exit",
+            "x": 10,
+            "y": 10
+        },{
+            "type" : "sword",
+            "x" : 8,
+            "y" : 2
+        },{
+            "type" : "sun_stone",
+            "x" : 8,
+            "y" : 3
+        },{
+            "type": "zombie_toast_spawner",
+            "x": 8,
+            "y": 5
+        },{
+            "type": "player",
+            "x": 8,
+            "y": 1
+        },{
+            "type": "wall",
+            "x": 7,
+            "y": 4
+        },{
+            "type": "wall",
+            "x": 9,
+            "y": 4
+        }
+    ],
+    "goal-condition": {
+        "goal": "exit"
+    }
+}

@@ -1,0 +1,6 @@
+All software development is maintenance. I believe this statement is accurate to a certain extent. Although the first parts of the 
+sofware development process include planning out the uml diagram, creating the task board, thinking of design patterns, 
+and thinking of testing, that took the least amount of time in the software development process. In most of the project, 
+I spent time refining, refactoring, and making sure that my code will work if in the future, one of my teammates wanted to add 
+something new to it. Thus, maintenance is engrained in all design principles and design patterns, as they are there to help 
+maintain the code for future use.

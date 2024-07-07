@@ -1,0 +1,5 @@
+a) (i) The design pattern used here is the template pattern. As there are groups and projects, they have many concrete methods that
+are the same, but also other methods that are different to each other. Additionally, you cannot change a group into a project and vice versa.
+(ii) The main design problem present in the code is that there is repetition of code, with authorise method looking the same in both 
+nodes.
+(iii) inappropiate intimacy

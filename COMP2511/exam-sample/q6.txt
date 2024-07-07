@@ -1,0 +1,4 @@
+I would use abstract factory method. As there are different types of entities,
+but within these entities, they can have characteristics of fire, water, 
+earth or air, the abstract factory method creates these entities in accordance
+to both types of entities, creating many different combinations of creatures. 

@@ -1,0 +1,6 @@
+a) The logical error present is that the code does not need to check if the obj is equal to this or if it is null,
+since it already checks that in the rest of the code. (the return)
+The only if statement it needs is the article instanceof, so that it can be typechecked. 
+assertEquals(false, f(obj that is not an article));
+b) The logical error here is you cannot remove any numbers from the numbers list you are iterating on.
+assertEquals([2], [2, 3, 4, 5]);

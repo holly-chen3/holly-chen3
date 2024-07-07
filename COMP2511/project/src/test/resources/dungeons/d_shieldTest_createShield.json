@@ -1,0 +1,35 @@
+{
+    "entities": [
+        {
+            "type" : "player",
+            "x" : 3,
+            "y" : 3
+        },
+        {
+            "type": "wood",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "wood",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "type": "key",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "type": "treasure",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "type": "exit",
+            "x": 8,
+            "y": 2
+        }
+    ],
+    "goal-condition": {"goal": "exit"}
+}

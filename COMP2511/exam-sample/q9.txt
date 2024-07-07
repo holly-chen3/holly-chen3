@@ -1,0 +1,8 @@
+a. One problematic feature of the code is the protected variable
+protected int x = 0; 
+This does not align with encapsulation goals, which states that 
+the internal representation of a class should be hidden from every other 
+class. 
+
+b. (i) Cannot go from more specific to generic for function return type,
+this breaks covariance. (ArrayList is more specific type compared to List)

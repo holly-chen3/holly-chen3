@@ -1,0 +1,9 @@
+Liskov's Substitution Principle states that objects of subclasses should
+behave the same way as the objects of the superclass. 
+Here, the inheritance shows a slight difference in the precondition of the classes.
+The superclass has a precondition requirement of age >= 0, whereas the 
+precondition for the subclass is a requirement of age >= 50. 
+Through design by contract, it was noted that preconditions should not be allowed
+to strengthen in subclasses. It can be weakened, however. This also invalidates
+the liskovs principle, as although the superclass can use this method if age is 
+for example 30, the gold flight cannot use the method. 

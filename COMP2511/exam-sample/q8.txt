@@ -1,0 +1,6 @@
+Synchronise requests to the web server. Only One
+request is processed at a time, avoiding concurrency
+issue. 
+If two people people attempt to choose the same room
+at the same time, some arbitrary factor is used to 
+differentiate / first in first serve

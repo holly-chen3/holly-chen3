@@ -1,0 +1,399 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(249,249,249);
+    line-height: 1;
+}
+body {
+    background-color: rgb(20,20,20);
+    margin: 0;
+    height: 100vh;
+}
+button {border-style: solid;}
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+    margin: 53px 52px 0px 40px;
+}
+h1 {
+    font-size: 60px;
+    margin: 0px;
+    margin-left: 13px;
+    transform: scale(1.06, 0.98);
+    line-height: 57px;
+    width: 390px;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 138px;
+}
+.box {
+    width: 430px;
+}
+.title {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(46,46,46);
+}
+.on-hat {
+    gap: 79px;
+}
+.no-fee {
+    gap: 136px;
+}
+p {
+    font-size: 15px;
+    letter-spacing: 1.3px;
+    color: rgb(203, 198, 192);
+    margin: 0;
+}
+h5 {
+    font-size: 21px;
+    font-weight: normal;
+    margin: 0;
+    padding-bottom: 20px;
+}
+.include {
+    font-size: 18px;
+    opacity: 70%;
+}
+.content {
+    padding-top: 30px;
+    position: relative;
+}
+ul {
+    list-style: none;
+    padding-inline-start: 0;
+    margin: 14px 0px 9px;
+}
+.list {
+    display: flex;
+    flex-direction: row;
+    color: rgb(173,173,173);
+    opacity: 70%;
+}
+.tick {
+    background-image: url(assets/tick.svg);
+    width: 16px;
+    height: 13px;
+    margin: 10px 15px 23px 0px;
+}
+.after-tick {
+    font-size: 20px;
+    margin: 10px 10px 10px 0px;
+    letter-spacing: 1.1px;
+}
+header {
+    color: rgb(197,191,183);
+    font-size: 20px;
+}
+.cashback {
+    position: absolute;
+    transform: scale(0.95, 1);
+    margin-bottom: 3px;
+    color: rgb(173,173,173);
+}
+.first-cashback {
+    left: -5px;
+}
+.second-cashback {
+    left: -10px;
+    top: 153px;
+}
+.banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(37,37,37);
+}
+.diamond {
+    width: 35px;
+    height: 45px;
+    padding: 20px 20px 25px 20px;
+}
+.learn-more:hover {
+    z-index: 2;
+    background: #ffffff;
+    color: #000000;
+}
+.learn-more {
+    background: rgb(37,37,37);
+    padding: 0px 18px;
+    margin: 25px 20px;
+    font-size: 16px;
+    width: 165px;
+    height: 35px;
+    letter-spacing: 2.1px;
+    border: 1px solid white;
+}
+.sign-up:hover {
+    z-index: 2;
+    opacity: 0.5;
+}
+.sign-up {
+    background-color: rgb(38,175,105);
+    border: none;
+    width: 210px;
+    height: 48px;
+    font-size: 17px;
+    letter-spacing: 3px;
+}
+.charge-up {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    margin-bottom: 100px;
+}
+.banner-container {
+    display: flex;
+    flex-direction: row;
+}
+h6 {
+    font-size: 20px;
+    font-weight: normal;
+    font-style: italic;
+    margin: 0px;
+    margin-top: 35px;
+    letter-spacing: 1.1px;
+}
+.comparison {
+    display: grid;
+    grid-template-columns: 415px 105px 290px 180px 115px;
+    grid-template-rows: repeat(4, 1fr);
+}
+.hidden-title {display: none;}
+.cell {
+    justify-self: stretch;
+    text-align: center;
+    padding: 23px;
+    font-size: 18px;
+    border-bottom: 1px solid rgb(56, 56, 56);
+}
+.darker {
+    color:rgb(173, 173, 173);
+}
+#big {padding-top: 50px;}
+#long-text {padding-top: 40px;}
+.exp > h6 {margin-top: 20px;}
+.exp > p {margin: 12px 60px 0px 0px;}
+.small-title {
+    font-size: 17px;
+}
+.cell > p {
+    font-size: inherit;
+}
+psmall {
+    font-size: 15px;
+    letter-spacing: 1.2px;
+    color: rgb(173, 173, 173);
+}
+#fees {
+    line-height: 1.3;
+}
+.first-col {
+    padding: 23px 0px;
+    margin-top: 0px;
+    border-bottom: 1px solid rgb(56, 56, 56);
+}
+#first-row {
+    color:rgb(198, 198, 198);
+}
+.example-hat {
+    margin-top: 3px;
+    display: grid;
+    grid-template-columns: 415px 105px 290px 180px 115px;
+    grid-template-rows: 1fr;
+    height: 115px;
+    border-bottom: 1px solid rgb(56, 56, 56);
+    border-top: 1px solid rgb(56, 56, 56);
+}
+.highlight {
+    background: rgba(41, 41, 41, 0.829);
+    font-size: 20px;
+    color: rgb(214, 214, 214);
+}
+.pricing {
+    margin-top: 45px;
+    font-size: 16px;
+    letter-spacing: 1.6px;
+}
+@media (max-width: 600px) {
+    h1 {
+        font-size: 35px;
+        line-height: 0.9;
+    }
+    p {
+        font-size: 12px;
+    }
+    h5 {
+        font-size: 15px;
+        letter-spacing: 1.1px;
+        padding-bottom: 18px;
+    }
+    .trade-fees {
+        letter-spacing: 1.1px;
+    }
+    .tick {
+        transform: scale(0.8, 0.8);
+        margin: 10px 10px 13px 0px;
+    }
+    .after-tick {
+        font-size: 15px;
+    }
+    h6 {
+        font-size: 16px;
+        margin-top: 30px;
+        letter-spacing: 1.4px;
+    }
+    .include {
+        font-size: 14px;
+    }
+    ul {
+        margin-top: 12px; 
+    }
+    .on-hat {gap: 23px;}
+    .no-fee {gap: 20px;}
+    .title {padding-bottom: 17px;}
+    .small-title {font-size: 13px;}
+    .content {
+        padding-top: 24px;
+    }
+    .cashback {
+        font-size: 12px;
+    }
+    .second-cashback {
+        top: 106px;
+    }
+    .learn-more {
+        font-size: 12px;
+        padding: 0px;
+        margin: 0px 15px 15px;
+        width: 135px;
+        height: 30px;
+    }
+    .charge-up {
+        gap: 25px;
+        margin-bottom: 0px;
+        margin-top: 85px;
+    }
+    .sign-up {
+        font-size: 13px;
+        width: 168px;
+        height: 39px;
+        padding: 1px;
+    }
+    .diamond {
+        width: 28px;
+        height: 41px;
+        padding: 15px;
+    }
+    .main {
+        margin: 22px 24px 0px 24px;
+        gap: 50px;
+    }
+    .container {
+        gap: 95px;
+        flex-direction: column;
+    }
+    .banner {
+        gap: 2px;
+        flex-direction: column;
+    }
+    .banner-container {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+    .charge-head {
+        padding-left: 16px;
+        font-size: 15px;
+    }
+    .comparison {
+        margin-top: 45px;
+        height: 450px;
+        grid-template-columns: 75px 140px 118px 75px;
+        grid-template-rows: 95px 48px 50px 53px 50px 53px 50px 53px;
+        grid-template-areas: 
+        "title title title title"
+        "c1 c2 c3 c4"
+        "max-head max-head max-head max-head"
+        "c5 c6 c7 c8"
+        "postage-fees postage-fees postage-fees postage-fees"
+        "c9 c10 c11 c12"
+        "volumetric volumetric volumetric volumetric"
+        "c13 c14 c15 c16";
+    }
+    .comparison-row {flex-direction: column;}
+    .box {width: 453px;}
+    .cell {
+        font-size: 14px;
+        padding: 20px 0px;
+    }
+    #first-row {padding: 10px;}
+    .exp > .small-title {margin-right: 150px;}
+    .exp > p {
+        margin: 8px 60px 0px 0px;
+        letter-spacing: 0.9px;
+    }
+    .example-hat {
+        height: 90px;
+        grid-template-columns: 75px 140px 118px 75px;
+        grid-template-rows: 90px 85px;
+        grid-template-areas: 
+        "exp exp exp exp"
+        "exp1 exp2 exp3 exp4";
+    }
+    psmall {
+        font-size: 12px;
+        padding-left: 6px;
+    }
+    .highlight {
+        font-size: 16px;
+    }
+    .exp > h6 {margin-top: 15px;}
+    #big {padding-top: 35px;}
+    #long-text {padding-top: 20px;}
+    .exp-title {font-size: 15px;}
+    .comparison-title {display: none;}
+    .hidden-title {
+        display: block;
+        font-size: 30px;
+        margin-top: 25px;
+        margin-bottom: 40px;
+        grid-area: title;
+    }
+    .last-cont {
+        display: flex;
+        flex-direction: column;
+        gap: 105px;
+    }
+    .pricing {
+        margin-top: 15px;
+        font-size: 12px;
+    }
+    .exp {grid-area: exp;}
+    .exp1 {grid-area: exp1;}
+    .exp2 {grid-area: exp2;}
+    .exp3 {grid-area: exp3;}
+    .exp4 {grid-area: exp4;}
+    .max-head {grid-area: max-head;}
+    .postage-fees {grid-area: postage-fees;}
+    .volumetric {grid-area: volumetric;} 
+    .c1 {grid-area: c1;}
+    .c2 {grid-area: c2;}
+    .c3 {grid-area: c3;}
+    .c4 {grid-area: c4;}
+    .c5 {grid-area: c5;}
+    .c6 {grid-area: c6;}
+    .c7 {grid-area: c7;}
+    .c8 {grid-area: c8;}
+    .c9 {grid-area: c9;}
+    .c10 {grid-area: c10;}
+    .c11 {grid-area: c11;}
+    .c12 {grid-area: c12;}
+    .c13 {grid-area: c13;}
+    .c14 {grid-area: c14;}
+    .c15 {grid-area: c15;}
+    .c16 {grid-area: c16;}
+}

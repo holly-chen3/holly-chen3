@@ -1,0 +1,8 @@
+Under the liskovs substitution principle, any superclass method or object 
+should be able to be replaced by a subclass method/object without changing or breaking the software. 
+Thus, the breaking of the preconditions and postconditions refer to the change in code which will violate this
+principle if a subclass method is created which tries to overwrite the superclass method. Preconditions can
+only be weakened, while post conditions can only be strengthened in subclasses - as described in DBP.
+
+It would affect the automarking in this scenario, as a change in the precondition or postcondition of 
+the methods will break the functionality of the code, if one tries to access the superclass method. 

@@ -1,0 +1,75 @@
+{
+    "entities": [
+        {
+            "type" : "player",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type" : "treasure",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type" : "treasure",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type" : "treasure",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type" : "treasure",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type" : "treasure",
+            "x" : 10,
+            "y" : 12
+        },
+        {
+            "type": "mercenary",
+            "x": 14,
+            "y": 12
+        },
+        {
+            "type": "exit",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "door",
+            "x": 13,
+            "y": 11
+        },
+        {
+            "type": "wall",
+            "x": 13,
+            "y": 12
+        },
+        {
+            "type": "zombie_toast_spawner",
+            "x": 13,
+            "y": 10
+        },
+        {
+            "type": "boulder",
+            "x": 13,
+            "y": 13
+        },
+        {
+            "type": "wall",
+            "x": 10,
+            "y": 13
+        },
+        {
+            "type": "wall",
+            "x": 10,
+            "y": 11
+        }
+    ],
+    "goal-condition": {"goal": "exit"}
+}

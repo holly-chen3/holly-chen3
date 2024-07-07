@@ -1,0 +1,3 @@
+The program will print "Woof woof" as dog was instantiated as a dog,
+thus overriding the method noise from the superclass animal. 
+Even though it changed into an Animal, it would still use the methods from dog.

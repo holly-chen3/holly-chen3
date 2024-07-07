@@ -1,0 +1,42 @@
+{
+    "entities": [
+        {
+            "type": "exit",
+            "x": 7,
+            "y": 2
+        },{
+            "type" : "hydra",
+            "x" : 1,
+            "y" : 3
+        },{
+            "type" : "wall",
+            "x" : 0,
+            "y" : 3
+        },{
+            "type": "wall",
+            "x": 1,
+            "y": 4
+        },{
+            "type" : "portal",
+            "colour" : "BLUE",
+            "x" : 2,
+            "y" : 3
+        },{
+            "type" : "portal",
+            "colour" : "BLUE",
+            "x" : 3,
+            "y" : 4
+        },{
+            "type": "boulder",
+            "x": 1,
+            "y": 2
+        },{
+            "type": "player",
+            "x": 1,
+            "y": 9
+        }
+    ],
+    "goal-condition": {
+        "goal": "exit"
+    }
+}

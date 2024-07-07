@@ -1,0 +1,3 @@
+An online call containing breakout rooms would be an example of composition, 
+since when the online call is destroyed, the breakout groups will also 
+be destroyed. 

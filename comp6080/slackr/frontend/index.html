@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Slackr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- You can add your styles and scripts here -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" type="text/css" media="screen" href="styles/provided.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="styles/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script type="module" src="src/helpers.js"></script>
+</head>
+
+<body>
+  <!-- This is an example app structure, you can modify this as much as you choose -->
+  <header class="banner"> 
+    <img src="slackr.png" alt="Slackr" class="slack-logo" width="30" height="24" id="header-logo">
+    <nav class="navbar fixed-top" id="nav">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <img src="slackr.png" alt="Slackr" class="slack-logo" width="30" height="24" class="offcanvas-title">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <nav>
+                  <h6 type="button" class="nav-options" id="channels-option">Channels</h6>
+                  <h6 type="button" class="nav-options" id="profile-option">User Profile</h6>
+                  <button class="secondary-pretty-button" id="enable">Enable notifications</button>
+                  <button type="button" class="secondary-pretty-button" id="logout">Logout</button>
+                </nav>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <img src="slackr.png" alt="Slackr" class="slack-logo" width="30" height="24">
+      </div>
+    </nav>
+  </header>
+  <main role="main">
+    <!-- app goes here -->
+    <div id="liveAlertPlaceholder">
+      <div class="alert alert-warning alert-dismissible hide" role="alert" id="alert-template">
+        <div class="alert-message"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+    <section class="page login-registration" id="login">
+      <h2 class="title">Login</h2>
+      <p class="title">Stay updated with your friends!</p>
+      <form name="login_form">
+        <input class="pretty-input" type="text" placeholder="Email" name="email1">
+        <input class="pretty-input" type="password" placeholder="Password" name="password1">
+        <input class="pretty-button" type="submit" id="submit-login" value="Login">
+        <br>
+        <p id="or">OR</p>
+        <button class="pretty-button" id="register-now">Register Now</button>
+      </form>
+    </section>
+    <section class="page login-registration" id="registration">
+      <h2 class="title">Register</h2>
+      <form name="register_form">
+        <!--no placeholders in input (research on this)-->
+        <input class="pretty-input" type="text" placeholder="Email" name="email2">
+        <input class="pretty-input" type="text" placeholder="Name" name="name">
+        <input class="pretty-input" type="password" placeholder="Password" name="password2">
+        <input class="pretty-input" type="password" placeholder="Confirm Password" name="confirm_password">
+        <button class="pretty-button" type="submit" id="submit-register">Register</button>
+        <button class="pretty-button" id="back-to-login">Back to Login</button>
+      </form>
+    </section>
+    <section class="page" id="channels">
+      <!-- Button trigger modal -->
+      <button type="button" class="pretty-button" data-bs-toggle="modal" data-bs-target="#createChannel">Create a channel</button>
+      <!-- Modal -->
+      <div class="modal fade" id="createChannel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Create your channel</h5>
+            </div>
+            <div class="modal-body">
+              <form name="create_channel">
+                <p>Channel name</p>
+                <input type="text" class="pretty-input channel-input" name="channel_name" id="channel-name">
+                <p>Description</p>
+                <textarea name="description" class="pretty-input channel-input" id="description-textbox"></textarea>
+                <p>Privacy</p>
+                <select name="privacy" class="form-select form-select-sm channel-input" id="privacy">
+                  <option value="private">Private</option>
+                  <option value="public">Public</option>
+                </select>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="pretty-button" id="save-channel" data-bs-dismiss="modal" disabled>Save channel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section type="button" class="channel shadow-sm hide" id="channel-template">
+        <div class="channel-background"></div>
+        <div class="channel-title"></div>
+        <div class="channel-id hide"></div>
+      </section>
+      <h3 class="title">Public Channels</h3>
+      <p>Your public channels</p>
+      <section class="channel-list" id="public-channels">
+      </section>
+      <h3 class="title">Private Channels</h3>
+      <p>Your private channels</p>
+      <section class="channel-list" id="private-channels">
+      </section>
+    </section>
+    <section id="channel-screen">    
+      <section class="channel-join" id="channel-join">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 left-arrow">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>  
+        <h2 class="title">Join the channel</h2>
+        <button class="pretty-button" id="join-now">Join now</button>
+      </section>  
+      <section id="channel-homepage">
+        <section class="channel-details">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 left-arrow">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>  
+          <h2 class="individual-channel-name"></h2>
+          <p class="individual-channel-description"></p>
+          <section>
+            Privacy: 
+            <p class="privacy-setting"></p>
+          </section>
+          <section>
+            Time Created:
+            <p class="creation-timestamp"></p>
+          </section>
+          <section>
+            Creator: 
+            <p class="creator-name"></p>
+          </section>
+          <section class="channel-options" type="button" data-bs-toggle="modal" data-bs-target="#editChannel" id="edit-details">Edit Channel Details</section>
+          <section class="channel-options" type="button" data-bs-toggle="modal" data-bs-target="#inviteUsers" id="invite-users">Invite Users</section>
+          <section class="channel-options" type="button" id="leave-channel">Leave Channel</section>
+          <img src="loading-icon.gif" alt="loading-icon" class="hide" id="loading-icon">
+          <form name="edit_channel_details">
+            <!-- Modal -->
+            <div class="modal fade" id="editChannel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Channel Details</h5>
+                  </div>
+                  <div class="modal-body">
+                    <form name="edit_channel">
+                      <input class="pretty-input" type="text" placeholder="Channel Name" name="change_channel_name">
+                      <input class="pretty-input" type="text" placeholder="Channel Description" name="change_channel_description">
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="pretty-button" id="change-details" data-bs-dismiss="modal" disabled>Save channel details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <!-- Modal -->
+          <div class="modal fade" id="inviteUsers" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Invite Users</h5>
+                </div>
+                <div class="modal-body-username">
+                  <form  class="hide" id="user-template">
+                    <input type="checkbox" class="user-checkbox" id="user-checkbox">
+                    <label class="user-name" for="user-checkbox"></label>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="secondary-pretty-button" id="close-button" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="pretty-button" id="invite-button" data-bs-dismiss="modal" disabled>Invite</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="shadow" id="channel-messages">
+          <h3>Channel Messages</h3>
+          <section class="extra-interactions">
+            <section type="button" id="all-messages">All Messages</section>
+            <section type="button" id="pinned-messages">Pinned Messages</section>
+          </section>
+          <section class="message-container">
+            <section class="hide" id="message-template">
+              <img src="little seal.png" alt="sender-profile" class="sender-profile">
+              <section>
+                <section class="extra-interactions">
+                  <section type="button" class="sender-name"></section>
+                  <section class="message-timestamp"></section>
+                  <section class="edited-timestamp"></section>
+                  <section class="sender-id"></section>
+                </section>
+                <section class="message-words"></section>
+                <img type="button" alt="message-image" class="message-image">
+                <section class="extra-interactions">
+                  <section type="button" class="delete-message">Delete</section>
+                  <section type="button" class="edit-message">Edit</section>
+                  <section type="button" class="pin-unpin"></section>
+                </section>
+                <section class="reactions">
+                  <section type="button" class="hide react-emoji"></section>
+                  <section type="button" class="emoji">&#128525;</section>
+                  <section type="button" class="emoji">&#128546;</section>
+                  <section type="button" class="emoji">&#128514;</section>
+                </section>
+                <form class="hide form-edit" name="edit_message" placeholder="Edit Message">
+                  <input type="text" class="pretty-input edit-input">
+                  <button type="submit" class="secondary-pretty-button edit">Edit</button>
+                </form>
+              </section>
+            </section>
+            <section><div class="send-message-container"></div></section>
+            <form class="shadow-sm" name="send_messages" id="send-messages">
+              <section>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" id="picture-icon" type="button" data-bs-toggle="modal" data-bs-target="#picture-upload">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>   
+                <input type="text" class="pretty-input" placeholder="New Message" name="new_message">   
+              </section>
+              <svg type="submit" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" id="send-message">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+              </svg>
+            </form>
+          </section>
+          <div class="modal fade" id="picture-upload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Send Photo</h5>
+                </div>
+                <div class="modal-body">
+                  <form name="send_photo">
+                    <p>Upload photo:</p>
+                    <div class="mb-3">
+                      <input class="form-control" type="file" name="upload_photo">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="pretty-button" id="save-photo" data-bs-dismiss="modal">Save Photo</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="picture-view" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Channel Photos</h5>
+                </div>
+                <div class="modal-body">
+                  <div id="carouselExampleControls" class="carousel slide" data-bs-interval="false">
+                    <div class="carousel-inner">
+                      <div class="hide" id="photo-template">
+                        <img class="d-block channel-photo">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>                
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal" id="close-carousel">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+    <section class="page" id="sender-user-profile">
+      <h3>Sender Profile</h3>
+      <img src="little seal.png" alt="sender-user-picture" class="user-profile" id="sender-user-picture">
+      <section id="sender-user-name"></section>
+      <section id="sender-user-bio"></section>
+      <section id="sender-user-email"></section>
+      <section class="bold" type="button" id="back-to-messages">Back to Messages</section>
+    </section>
+    <div class="page" id="user-profile">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 left-arrow">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>  
+      <h2>User Profile</h2>
+      <img src="little seal.png" alt="user-profile" class="user-profile" id="image-user-profile">
+      <h4 id="profile-name"></h4>
+      <section id="profile-bio"></section>
+      <section id="profile-email"></section>
+      <section type="button" class="bold" data-bs-toggle="modal" data-bs-target="#edit-profile-modal" id="edit-profile">Edit Profile</section>
+      <div class="modal fade" id="edit-profile-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Profile</h5>
+            </div>
+            <div class="modal-body">
+              <form name="profile_edit">
+                <section>
+                  <img src="little seal.png" alt="edit-user-profile" class="user-profile" id="edit-user-profile">
+                  <div class="mb-3">
+                    <input class="form-control" type="file" name="profile_photo">
+                  </div>
+                </section>
+                <p>Name:</p>
+                <input type="text" class="pretty-input" name="edit_name">        
+                <p>Email:</p>
+                <input type="text" class="pretty-input" name="edit_email">
+                <p>Bio:</p>
+                <input type="text" class="pretty-input" name="edit_bio">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="pretty-button" id="save-profile" data-bs-dismiss="modal">Save Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section type="button" class="bold" data-bs-toggle="modal" data-bs-target="#change-password-modal">Change Password</section>
+      <div class="modal fade" id="change-password-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">New Password</h5>
+            </div>
+            <div class="modal-body">
+              <form name="change_password">
+                <p>Password:</p>
+                <input type="password" class="pretty-input" name="user_password">        
+                <p>Confirm Password:</p>
+                <input type="password" class="pretty-input" name="confirm_user_password">
+                <svg xmlns="http://www.w3.org/2000/svg" id="password-visible" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="hide" id="password-invisible" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                </svg>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="secondary-pretty-button" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="pretty-button" id="save-password" data-bs-dismiss="modal" disabled>Save Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; Slackr</p>
+  </footer>
+  <script type="module" src="src/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>

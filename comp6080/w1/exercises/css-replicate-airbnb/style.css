@@ -1,0 +1,43 @@
+body {
+    color: #333;
+}
+
+#top-section {
+    padding-bottom: 20px;
+}
+
+.button {
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid #378189;
+}
+
+#login-button {
+    color: white;
+    background: #378189;
+}
+
+#signup-button {
+    color: #378189;
+    background: white;
+}
+
+hr {
+    border: 0.5px solid #ddd;
+}
+
+#flex-container {
+    display: flex;
+    flex-direction: space-between;
+}
+
+ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+
+li {
+    padding: 3px 0;
+}

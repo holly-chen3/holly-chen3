@@ -1,0 +1,85 @@
+* {
+    font-family: Arial;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    height: 100vh;
+}
+.container {
+    width: 1981px;
+    height: 844px;
+    display: flex;
+    flex-direction: row;
+}
+.options {
+    background-color: rgb(1,51,101);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    padding-left: 30px;
+    width: 500px;
+}
+.options.fruit {
+    padding-left: 15px;
+    width: 485px;
+}
+li {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    border-bottom: 1px dotted;
+    padding: 24px 0px 24px 20px;
+}
+ul {
+    list-style: none;
+    padding: 0px;
+    padding-right: 10px;
+    margin: 0px;
+}
+.arrow {
+    background-image: url(ArrowRight.svg);
+    width: 17px;
+    height: 17px;
+    margin-top: 5px;
+}
+.main {
+    padding: 50px 30px;
+    background-color: rgb(221,221,221);
+    width: 1000px;
+}
+.announcement-box {
+    display: flex;
+    flex-direction: column;
+}
+.announcement-title{
+    background-color: rgb(236,224,124);
+    color: rgb(144,0,1);
+    padding: 10px 20px;
+    font-weight: 900;
+    font-size: 35px;
+    line-height: normal;
+}
+.announcement {
+    background-color: rgb(251,249,229);
+    font-size: 27px;
+    padding: 20px 0px 0px 20px;
+    width: 935px;
+    height: 120px;
+    line-height: 1.5;
+    letter-spacing: 2;
+}
+.blue-title {
+    font-size: 36px; 
+    margin: 43px 5px 28px;
+    line-height: 1.2;
+    color:rgb(1,51,101);
+}
+p {
+    font-size: 28px;
+    line-height: 1.5;
+    margin: 0px 5px 30px;
+}

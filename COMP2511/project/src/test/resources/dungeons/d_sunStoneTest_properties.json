@@ -1,0 +1,30 @@
+{
+    "entities": [
+        {
+            "type" : "player",
+            "x" : 2,
+            "y" : 2
+        },{
+            "type" : "sun_stone",
+            "x" : 2,
+            "y" : 3
+        }, {
+            "type" : "wood",
+            "x" : 2,
+            "y" : 4
+        }, {
+            "type" : "wood",
+            "x" : 2,
+            "y" : 5
+        }, {
+            "type": "door",
+            "x": 3,
+            "y": 3
+        }, {
+            "type": "exit",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "goal-condition": {"goal": "treasure"}
+}
