@@ -1,0 +1,10 @@
+Question 2
+
+Explain why the compilation error occurred and briefly describe how it
+can be fixed.
+
+The compilation error occurred because the Graph g is not a pointer to a struct, rather it is 
+the struct itself. In order to fix this issue, instead of using the ->, use the . to access
+the fields within the struct. 
+
+

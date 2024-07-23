@@ -1,0 +1,61 @@
+# COMP3311 22T3 Final Exam Q6
+# SQL schema from ER design
+
+(A) ER-mapping of subclasses
+create table A (
+	id integer primary key,
+	x text
+);
+
+create table B (
+	id integer primary key references A(id),
+	y text;
+);
+
+create table C (
+	id integer primary key references A(id)
+);
+
+create table D (
+	id integer primary key,
+	w text
+);
+
+create table Z (
+	id integer references C(id),
+	z text,
+	primary key(id,z)
+);
+
+create table R (
+	C integer references C(id),
+	D integer references D(id),
+	primary key (C,D)
+);
+
+(B) Single-table-mapping of subclasses
+
+create table A (
+	id integer primary key,
+	b boolean, 
+	c boolean,
+	x text, 
+	y text 
+);
+
+create table Z (
+	id references A(id),
+	z text,
+	primary key (id,z)
+);
+
+create table D (
+	id integer primary key,
+	w text
+);
+
+create table R (
+	C references A(id),
+	D references D(id)
+);
+

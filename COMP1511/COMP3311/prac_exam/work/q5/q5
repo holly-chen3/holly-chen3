@@ -1,0 +1,92 @@
+#!/usr/bin/python3
+
+import sys
+import psycopg2
+import re
+
+# Helper functions (if any)
+
+# ... functions go here ...
+
+# Initial setup
+
+db = None
+cur = None
+
+if len(sys.argv) < 3:
+   print(f"Usage: {sys.argv[0]} Racecourse Date")
+   exit(1)
+track = sys.argv[1]
+date = sys.argv[2]
+
+validDate = re.compile("^\d{4}-\d{2}-\d{2}$")
+if not validDate.match(date):
+   print(f"Invalid date")
+   exit(1)
+
+racecourse_qry = '''
+select * from racecourses r 
+where r.name = %s
+'''
+
+meeting_qry = '''
+select * from racecourses r 
+join meetings m on (r.id = m.run_at)
+where r.name = %s
+and m.run_on = %s
+'''
+
+racedetails_qry = '''
+select c.id, c.ord, c.prize, c.length from racecourses r 
+join meetings m on (r.id = m.run_at)
+join races c on (c.part_of = m.id)
+where r.name = %s
+and m.run_on = %s
+order by c.ord
+'''
+
+horsedetails_qry = '''
+select h.name, j.name, prize(c.prize, r.finished) from horses h
+join runners r on (h.id = r.horse)
+join jockeys j on (r.jockey = j.id)
+join races c on (c.id = r.race)
+where r.finished <= 3
+and c.id = %s::integer
+order by r.finished
+'''
+def horseprint(horses):
+	for horse in horses:
+		print(f"{horse[0]} ridden by {horse[1]} wins ${horse[2]}")
+
+def main():
+	cur = db.cursor();
+	cur.execute(racecourse_qry, [track])
+	racecourse = cur.fetchone()
+	if (racecourse is None):
+		print("No such racecourse")
+		exit(0)
+	cur.execute(meeting_qry, [track, date])
+	meeting = cur.fetchone()
+	if (meeting is None):
+		print("No such meeting")
+		exit(0)
+	print(f"Race meeting at {track} on {date}")
+	cur.execute(racedetails_qry,  [track, date])
+	details = cur.fetchall()
+	for detail in details:
+		print()
+		print(f"Race {detail[1]}, prize pool ${detail[2]}, run over {detail[3]}m")
+		cur.execute(horsedetails_qry, [detail[0]])
+		horses = cur.fetchall()
+		horseprint(horses)
+try:
+	db = psycopg2.connect("dbname=racing")
+	main()
+
+except psycopg2.Error as err:
+   print("DB error: ", err)
+finally:
+   if db:
+      db.close()
+   if cur:
+       cur.close()

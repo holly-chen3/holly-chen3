@@ -1,0 +1,45 @@
+Input	Initial	Number	AvgTime		AvgTime
+Size	Order	of Runs	for sortIntList	for sort
+10000	random	5	    0.21 sec    0 sec
+10000	sorted	5	    0 sec		0 sec
+10000	reverse	5	    0 sec		0 sec
+20000	random	5	    1.4 sec		0.008 sec
+20000	sorted	5	    0 sec		0 sec
+20000	reverse	5	    0 sec		0 sec
+50000	random	5	    12.01 sec	0.02 sec
+50000	sorted	5	    0.01 sec	0.00 sec
+50000	reverse	5	    0.01 sec	0.02 sec
+70000 	random	5	    25 sec		0.03 sec
+70000	sorted	5	    0.02 sec	0.03 sec
+70000	reverse	5	    0.03 sec	0.03 sec
+100000	random	5	    2.8 sec		0.37 sec
+100000	sorted	5	    0.27 sec	0.27 sec
+100000	reverse	5	    0.25 sec	0.35 sec
+1000000	random	5	    T1sec		T2sec
+1000000	sorted	5	    0.54 sec	0.66 sec
+1000000	reverse	5	    0.53 sec	0.68 sec
+2000000	random	5	    T1sec		T2sec
+2000000	sorted	5	    0.54 sec	0.66 sec
+2000000	reverse	5	    0.53 sec	0.68 sec
+
+
+Time Complexity for Random: O(n^2)
+- n^2 because we need to call the function n times first
+and there is a while loop which loops through 
+until it finds a number that is larger or equal to the new value 
+inserted, with the worst case scenario being n times as well. 
+Time Complexity for Sorted: O(n)
+- n because we need to call the function n times.
+
+Time Complexity for Reversed: O(n)
+- n because we need to call the function n times. 
+
+Sorted has a slower average time compared to reverse because
+with sorted, the new value needs to be compared to all the
+numbers already in the list until it reaches the end where it is
+added to the list. While with reverse, the value only needs to be 
+compared once everytime and then it would be added to the front of
+list. 
+
+Random takes longer than sorted and reverse due to external issues
+with caching.

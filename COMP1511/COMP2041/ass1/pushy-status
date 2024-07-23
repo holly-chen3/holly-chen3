@@ -1,0 +1,115 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-status
+#
+#  DESCRIPTION
+# 	pushy-status shows the status of files in the 
+#	current directory, the index, and the repository
+#
+#  Written by HOLLY CHEN (z5359932)
+num=0
+branchName=$(sed -n '1p' .pushy/.HEAD)
+if [ -f ".pushy/$branchName/commits" ] >/dev/null
+then
+	num=$(($(wc -l < .pushy/"$branchName"/commits) - 1))
+fi
+comNum=$(($(wc -l < .pushy/.commits) - 1))
+tmp=$(mktemp)
+loop() {
+	dir=$1
+	for filename in "$dir"/*
+	do
+		name=$(basename "$filename")
+		echo "$name" >> "$tmp"
+	done
+}
+loop .
+loop .pushy/"$branchName/$num"
+loop .pushy/.index
+filenames=$(sed -E '/^tmp$/d' "$tmp" | sed -E '/^(\*|\.)$/d' | sort | uniq)
+echo "$filenames" > "$tmp"
+while IFS= read -r name
+do
+	if [ "$name" = "" ]
+	then
+		continue
+	fi	
+
+	echo -n "$name - " 
+	if [ -f .pushy/.index/"$name" ] >/dev/null && [ ! -f .pushy/"$branchName/$num/$name" ] >/dev/null
+	then
+		echo -n "added to index"
+		if [ ! -f "$name" ]
+		then
+			echo -n ", file deleted"
+		elif [ -f "$name" ] && ! diff .pushy/.index/"$name" "$name" >/dev/null
+		then
+			echo -n ", file changed"
+		fi
+		echo ""
+		continue
+	fi
+	if [ ! -f "$name" ]
+	then 
+		if [ ! -f .pushy/.index/"$name" ] && [ -f .pushy/"$branchName/$num/$name" ]
+		then
+			echo "file deleted, deleted from index"
+			continue
+		else 
+			echo -n "file deleted"
+			if ! diff .pushy/"$branchName/$num/$name" .pushy/.index/"$name" >/dev/null
+			then
+				echo -n ", changes staged for commit"
+			fi
+			echo ""
+			continue
+		fi
+	elif [ ! -f .pushy/.index/"$name" ] && [ -f .pushy/"$branchName/$num/$name" ]
+	then
+		echo "deleted from index"
+		continue
+	fi
+	if [ ! -f .pushy/.index/"$name" ] && [ ! -f .pushy/"$branchName/$num/$name" ] >/dev/null
+	then
+		echo "untracked"
+		continue
+	else 
+		file_status="none"
+		if [ -f .pushy/"$branchName/$num/$name" ] && [ -f "$name" ]
+		then
+			if ! diff .pushy/"$branchName/$num/$name" "$name" >/dev/null || (! diff .pushy/.index/"$name" "$name" >/dev/null && ! diff .pushy/"$branchName/$num/$name" .pushy/.index/"$name" >/dev/null)
+			then
+				echo -n "file changed, "
+				file_status="changed"
+			fi
+		fi
+		if diff .pushy/.index/"$name" .pushy/"$comNum/$name" >/dev/null && [ "$file_status" = "none" ]
+		then
+			echo "same as repo"
+			continue
+		fi
+		if [ -f .pushy/.index/"$name" ] >/dev/null && [ -f .pushy/"$branchName/$num/$name" ] >/dev/null
+		then
+			if ! diff .pushy/.index/"$name" .pushy/"$branchName/$num/$name" >/dev/null
+			then
+				if ! diff .pushy/.index/"$name" "$name" >/dev/null
+				then
+					echo -n "different "
+				fi
+				echo "changes staged for commit"
+				continue
+			else 
+				if [ "$file_status" = "changed" ]
+				then
+					echo "changes not staged for commit"
+					continue
+				else 
+					echo "same as repo"
+					continue
+				fi
+			fi
+		fi
+	fi
+done < "$tmp"
+rm "$tmp"
+exit 0

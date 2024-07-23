@@ -1,0 +1,25 @@
+Question 5
+
+(a) Describe and justify the steps you would take to determine which
+    sorting algorithm the program uses.
+
+Selection sort vs randomised quicksort
+Selection sort is a non - adaptable sort. This means that it always takes O(n^2) time
+to complete. This is contrasted to the randomised quicksort, which is adaptable. This means
+that the time it takes is O(nlogn) in the best case and O(n^2) in the worst case.
+Because of this, if we give the program multiple tests with randomised lists, 
+selection sort will be slower than randomised quicksort. If you plot the time it takes relative
+to n on a graph, selection sort will produce a n^2 parabola, while randomised quicksort will
+produce a nlogn function. 
+
+(b) Is the sorting algorithm that the program uses stable? How confident
+    are you in your conclusion? Explain your answer.
+Yes this sorting algorithm uses stable. I am not certain that it is however, 
+as it could use unstable and coincidently produce this result that is ordered.
+As shown in the input and output, the sorting algorithm has sorted the first numbers 
+as usual. However, since there are repetitions in the first number, the second number
+shows the differences between them. The output clearly shows that all the order of the
+identical items has been preserved. For example, (2, 8) was above (2, 9) in the input
+and is in the same order in the output.
+
+

@@ -1,0 +1,41 @@
+
+NOTE:
+- Your time complexities should be expressed in big-O notation and be in
+  terms of n, where n is the number of people who  have  been  added  to
+  Friendbook.
+
+===============
+  FbUnfriend
+===============
+
+- Worst case time complexity: O(logn)
+
+- Explanation: FbUnfriend calls the function nameToId. nameToId calls both 
+  the MapContains function and MapGet function. MapContains calls the doContains
+  function, which searches through the binary search tree that contains names 
+  and see if there is one that matches. If there is, then it returns true.
+  Next, MapGet calls the doGet function which searches through the binary search tree
+  to get the name's index. Thus, both functions are of O(logn) (Assumption, look
+  at Map.c for more details). 
+  FbUnfriend also accesses a 2D array, which is of O(1). 
+  Therefore, the complexity of FbUnfriend O(logn).
+
+===============
+FbMutualFriends
+===============
+
+- Worst case time complexity: O(n)
+
+- Explanation: While FbMutualFriends calls nameToId as well, the while loop within
+  the function has a higher complexity of O(n). ListAppend which is called in the
+  while loop is of O(1). 
+  Therefore, the complexity of FbMutualFriends is O(n).
+
+===============
+ FbFriendRecs1
+===============
+
+- Worst case time complexity: O(n^2)
+
+- Explanation: There is a while loop within a while loop, both with O(n) each.
+

@@ -1,0 +1,47 @@
+int input;
+    int num_two = 0;
+    while (scanf("%d", &input) == 1) {
+        
+        if (input == 1) {
+            //check which direction to go
+            int inp_two;
+            scanf("%d", &inp_two);
+            if (inp_two == 1) {
+                //downwards once
+                if (num_two == 0) {
+                map[row][col] = EMPTY;
+                row++;
+                clamp_map(&row, &col);
+                map[row][col] = STONE;
+                }
+                if (num_two == 1) {
+                    laser_y ++;
+                    num_two --;
+                }
+            } else if (inp_two == -1) {
+                //upwards once
+                if (num_two == 0) {
+                map[row][col] = EMPTY;
+                row--;
+                clamp_map(&row, &col);
+                map[row][col] = STONE;
+                }
+                if (num_two == 1) {
+                    laser_y--;
+                    num_two--;
+                }
+            }  
+        } else if (input == 2) {
+            int j = 0;
+            int j_counter = 0;
+            while (j < SIZE && j_counter < 4) {
+                if (map[laser_y][j] == STONE) {
+                    map[laser_y][j] = EMPTY;
+                    j++;
+                    j_counter++;
+                } else if (map[laser_y][j] == EMPTY) {
+                    j++;
+                }
+            }
+            num_two = 1;
+        }          

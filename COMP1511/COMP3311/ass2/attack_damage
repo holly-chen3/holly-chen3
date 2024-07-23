@@ -1,0 +1,125 @@
+#! /usr/bin/env python3
+
+
+"""
+COMP3311
+23T1
+Assignment 2
+Pokemon Database
+
+Written by: HOLLY CHEN z5359932
+Written on: 9/04/2023
+
+Attack Damage
+
+Given the name of an attacking, and a defending pokemon along with the name of a game in the Pokemon series,
+display a list, ordered from lowest to highest damage,
+of all the moves the attacking pokemon could use on the defending pokemon in the given game.
+"""
+
+
+import sys
+import psycopg2
+import helpers
+
+
+### Constants
+USAGE = f"Usage: {sys.argv[0]} <Attacking Pokemon Name> <Defending Pokemon Name> <Pokemon Game Name>"
+
+
+### Globals
+db = None
+Attacking_Pokemon_Name = None
+Defending_Pokemon_Name = None
+Pokemon_Game_Name      = None
+
+
+### Command-line args
+if len(sys.argv) != 4:
+    print(USAGE, file=sys.stderr)
+    sys.exit(1)
+Attacking_Pokemon_Name = helpers.clean(sys.argv[1])
+Defending_Pokemon_Name = helpers.clean(sys.argv[2])
+Pokemon_Game_Name      = helpers.clean(sys.argv[3])
+
+attackdamage_qry = '''
+select * from ad_moves a
+WHERE (a.attacker = %s)
+AND (a.defender = %s)
+AND (a.game = %s)
+AND (a.max_damage <> 0)
+ORDER BY a.max_damage, a.min_damage, a.move
+'''
+
+pokemon_qry = '''
+select * from pokemon p 
+where (p.name = %s)
+'''
+
+game_qry = '''
+select * from games g
+where (g.name = %s)
+'''
+
+appear_qry = '''
+select p.name from pokemon p 
+join pokedex po on (po.national_id = p.id)
+join games g on (g.id = po.game)
+where (p.name = %s)
+and (g.name = %s)
+'''
+
+def main():
+	cur = db.cursor()
+	cur.execute(pokemon_qry, [Attacking_Pokemon_Name])
+	attacking = cur.fetchone()
+	cur.execute(pokemon_qry, [Defending_Pokemon_Name])
+	defending = cur.fetchone()
+	if (attacking is None):
+		print(f"'{Attacking_Pokemon_Name}' isn't a Pokemon that exists.", file = sys.stderr)
+		return 
+	if (defending is None): 
+		print(f"'{Defending_Pokemon_Name}' isn't a Pokemon that exists.", file = sys.stderr)
+		return
+	cur.execute(game_qry, [Pokemon_Game_Name])
+	game_exists = cur.fetchone()
+	if (game_exists is None):
+		print(f"'Pokemon {Pokemon_Game_Name}' isn't a game in the Pokemon series.", file = sys.stderr)
+		return
+	cur.execute(appear_qry, [Attacking_Pokemon_Name, Pokemon_Game_Name])
+	attack_appear = cur.fetchone()
+	cur.execute(appear_qry, [Defending_Pokemon_Name, Pokemon_Game_Name])
+	defend_appear = cur.fetchone()
+	if (attack_appear is None):
+		print(f"'{Attacking_Pokemon_Name}' doesn't appear in 'Pokemon {Pokemon_Game_Name}'.", file = sys.stderr)
+		return 
+	if (defend_appear is None): 
+		print(f"'{Defending_Pokemon_Name}' doesn't appear in 'Pokemon {Pokemon_Game_Name}'.", file = sys.stderr)
+		return
+	cur.execute(attackdamage_qry, [Attacking_Pokemon_Name, Defending_Pokemon_Name, Pokemon_Game_Name])
+	attack_damages = cur.fetchall()
+	print()
+	if (attack_damages == []):
+		print(f"In 'Pokemon {Pokemon_Game_Name}', '{Attacking_Pokemon_Name}' can't attack '{Defending_Pokemon_Name}'.")
+		return
+	print(f"In 'Pokemon {Pokemon_Game_Name}', When '{Attacking_Pokemon_Name}'", end = '')
+	print(f" attacks '{Defending_Pokemon_Name}', '{Attacking_Pokemon_Name}' can use the following moves:")
+	print()
+	for attack_damage in attack_damages:
+		print(f"\t'{attack_damage[2]}' for a minimum of {attack_damage[0]} damage and ", end = '')
+		print(f"a maximum of {attack_damage[1]} damage to '{Defending_Pokemon_Name}'.")
+	print()
+
+if __name__ == '__main__':
+    try:
+        db = psycopg2.connect(dbname="ass2")
+        main()
+    except psycopg2.Error as err:
+        print("DB error: ", err)
+    except Exception as err:
+        print("Internal Error: ", err)
+        raise err
+    finally:
+        if db is not None:
+            db.close()
+    sys.exit(0)

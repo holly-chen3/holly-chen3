@@ -1,0 +1,91 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-commit [-a] -m <message>
+#
+#  DESCRIPTION
+# 	The pushy-commit command saves a copy of all files in the index to the repository.
+#	Further, -a allows all tracked files in the working directory to be added into the index.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+if [ $# -lt 2 ]
+then
+	echo "usage: pushy-commit [-a] -m commit-message" 1>&2
+	exit 1
+fi
+message=$2
+branchName=$(sed -n '1p' .pushy/.HEAD)
+if [ "$1" = "-a" ] || [ "$1" = "-am" ]
+then
+	[ "$1" = "-a" ] && message=$3
+	for filename in *
+	do
+		if [ "$(wc -l < .pushy/.commits)" -eq 0 ] && [ ! -f .pushy/.index/"$filename" ]
+		then
+			echo "nothing to commit"
+			exit 0
+		fi
+		if [ -f "$filename" ] >/dev/null
+		then
+			[ -f .pushy/.index/"$filename" ] && pushy-add "$filename"
+		fi
+	done
+fi
+cd .pushy || exit 1
+comNum=$(wc -l < .commits)
+if [ ! -f "$branchName/commits" ] >/dev/null
+then
+	num=0
+else 
+	num=$(wc -l < "$branchName"/commits)
+fi
+tmp=$(mktemp)
+loop() {
+	dir=$1
+	for filename in "$dir"/*
+	do
+		name=$(basename "$filename")
+		echo "$name" >> "$tmp"
+	done
+}
+loop "$branchName/$((num - 1))"
+loop .index
+filenames=$(sed -E '/^tmp$/d' "$tmp" | sed -E '/^(\*|\.)$/d' | sort | uniq)
+echo "$filenames" > "$tmp"
+count=0
+while IFS= read -r filename
+do
+	if [ "$filename" = "" ]
+	then
+		continue
+	fi
+	if [ -f "$branchName/$((num - 1))/$filename" ] && [ ! -f .index/"$filename" ]
+	then
+		count=$((count + 1))
+		[ ! -d "$branchName/$num" ] && mkdir "$branchName/$num" 
+		[ ! -d "$comNum" ] && mkdir "$comNum"
+		continue
+	fi
+	if [ -f .index/"$filename" ] && [ -f "$branchName/$((num - 1))/$filename" ] && ! diff ".index/$filename" "$branchName/$((num - 1))/$filename" >/dev/null
+	then
+		count=$((count + 1))
+	elif [ -f .index/"$filename" ] && [ ! -f "$branchName/$((num - 1))/$filename" ]
+	then
+		count=$((count + 1))
+	fi
+	[ ! -d "$branchName/$num" ] && mkdir "$branchName/$num"
+	[ ! -d "$comNum" ] && mkdir "$comNum"
+	cp ".index/$filename" -t "$branchName"/"$num"
+	cp ".index/$filename" -t "$comNum"
+done < "$tmp"
+rm "$tmp"
+if [ "$count" -gt 0 ] >/dev/null
+then
+	echo "Committed as commit $comNum"
+	echo "$message" >> "$branchName"/commits
+	echo "$message" >> .commits
+else 
+	echo "nothing to commit"
+fi
+cd .. || exit 1
+exit 0

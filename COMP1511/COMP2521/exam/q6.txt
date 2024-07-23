@@ -1,0 +1,13 @@
+Question 6
+
+Which of the data structures is most suitable? Justify your answer.
+You must use time complexities as a basis for your justification.
+A Max Heap is the most suitable. This is because the time complexity 
+of adding a new element to the heap is O(logn), and the time complexity
+of removing the maximum element (the root element) is also O(logn). 
+Moving the new item to the right position always takes O(logn), hence why both
+of these functions take O(logn) times. PrintInOrder will take O(nlogn) times, 
+since it will be using the pop function, which is O(logn), n times, until
+the priority queue is empty.
+
+

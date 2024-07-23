@@ -1,0 +1,24 @@
+Question 3
+
+(a) Which of the given sequences (A, B, C or D) would be produced by a
+    valid post-order traversal of the same tree? Explain your answer.
+
+B. I drew the tree with the pre order traversal, where you traverse the 
+parent node first, and then the left subtrees, and then the right subtrees.
+After that, I used post order traversal, where you get all the left subtree
+of the node traversed first, and then the right children, and then the node itself. 
+
+(b)
+
+Value in the root node: 32
+
+Value in the left child (of the root): 20
+
+Value in the right child (of the root): 36
+
+(c)
+
+i.  Value(s) in the root node: 20
+
+ii. Value(s) in the node that now contains 62: 35, 60, 62
+

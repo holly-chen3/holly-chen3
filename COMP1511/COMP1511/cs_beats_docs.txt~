@@ -1,0 +1,71 @@
+[COMP1511 Extension Work]
+
+Write a summary of how you made the changes that you did:
+
+[E1:Summary] {{{
+I created a function called merging beats, which merges two beats given by the
+merged_beats function, by creating a new merged beat which has the notes in order. 
+In this merging beats function, I made the two beats equal to pointers a and b. 
+I then called the check_lower_note function where I check which beat the pointers 
+are pointing to are lower or if they are the same. 
+Then I returned the lower note and copied the note,
+in my function copy_notes. Once I have copied the note, I put the note into 
+the new merged beat. In the function merged_beats, I then put the new
+merged beats into the track, and discarded the old two notes.
+
+}}}
+
+Write two tests to test your implementation of Extension 1 (Merging).
+
+*This test should *ONLY* test merging into 1 beat.*
+[E1:Test 1] {{{
+a 4 4
+A
+a 3 3
+A
+a 3 3
+A
+>
+>
+M 2 1
+P
+a 6 2
+a 3 3
+A
+P
+}}}
+
+*This test can test merging into any number of beats*
+[E1:Test 2] {{{
+a 5 5
+A
+a 7 2
+a 2 1
+A
+a 3 3
+A
+a 7 2
+A
+a 9 2
+A
+>
+M 6 3
+P
+}}}
+
+===========================================================================
+
+Write a summary of how you made the changes that you did:
+
+[E2:Summary] {{{
+
+}}}
+
+Write two tests to test your implementation of Extension 2 (Save and Restore).
+
+[E2:Test 1] {{{
+
+}}}
+[E2:Test 2] {{{
+
+}}}

@@ -1,0 +1,15 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-log
+#
+#  DESCRIPTION
+# 	The pushy-log command prints a line for every commit made to the repository.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+count=$(wc -l < .pushy/.commits)
+tac .pushy/.commits | while IFS= read -r line
+do
+	count=$((count - 1))
+	echo "$count $line"
+done

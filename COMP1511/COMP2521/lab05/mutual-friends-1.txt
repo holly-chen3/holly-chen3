@@ -1,0 +1,22 @@
++ Poo
++ Winnie 
++ Hi
++ Bye
++ George 
++ Peppa
++ Shy
++ Panda 
++ Pikachu
+f Poo Winnie 
+f Poo Hi
+f Winnie Bye 
+f Winnie Peppa 
+f Hi Bye 
+f Hi Peppa 
+f Bye Peppa 
+f Bye George 
+f George Peppa 
+f Peppa Shy 
+f Shy Panda 
+f Panda Pikachu 
+r Winnie

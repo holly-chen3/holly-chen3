@@ -1,0 +1,31 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-init
+#
+#  DESCRIPTION
+# 	The pushy-init command creates an empty Pushy repository.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+baseFile=$(basename "$0")
+if [ -d ".pushy" ] 2>/dev/null
+then
+	echo "$baseFile: error: .pushy already exists" 1>&2
+	exit 1
+fi
+mkdir .pushy
+cd .pushy || exit 1
+touch .commits
+mkdir .uncommitted
+echo ".master" >.HEAD
+mkdir .master
+mkdir .index
+mkdir .refs
+cd .refs || exit 1
+mkdir .heads 
+cd .heads || exit 1
+touch master
+cd .. || exit 1
+cd ../.. || exit 1
+echo "Initialized empty pushy repository in .pushy"
+exit 0

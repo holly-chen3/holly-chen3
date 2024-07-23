@@ -1,0 +1,48 @@
+==52391== Memcheck, a memory error detector
+==52391== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==52391== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==52391== Command: ./testShortestDistance
+==52391== 
+==52391== Conditional jump or move depends on uninitialised value(s)
+==52391==    at 0x109403: shortestDistance (shortestDistance.c:21)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Conditional jump or move depends on uninitialised value(s)
+==52391==    at 0x10A0AB: validVertex (Graph.c:213)
+==52391==    by 0x109F00: GraphIsAdjacent (Graph.c:183)
+==52391==    by 0x1093B5: shortestDistance (shortestDistance.c:22)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Conditional jump or move depends on uninitialised value(s)
+==52391==    at 0x10A0B6: validVertex (Graph.c:213)
+==52391==    by 0x109F00: GraphIsAdjacent (Graph.c:183)
+==52391==    by 0x1093B5: shortestDistance (shortestDistance.c:22)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Use of uninitialised value of size 8
+==52391==    at 0x109F44: GraphIsAdjacent (Graph.c:185)
+==52391==    by 0x1093B5: shortestDistance (shortestDistance.c:22)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Use of uninitialised value of size 8
+==52391==    at 0x1093C4: shortestDistance (shortestDistance.c:22)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Use of uninitialised value of size 8
+==52391==    at 0x1093D9: shortestDistance (shortestDistance.c:23)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== Conditional jump or move depends on uninitialised value(s)
+==52391==    at 0x1093E2: shortestDistance (shortestDistance.c:24)
+==52391==    by 0x109210: main (testShortestDistance.c:17)
+==52391== 
+==52391== 
+==52391== HEAP SUMMARY:
+==52391==     in use at exit: 0 bytes in 0 blocks
+==52391==   total heap usage: 21 allocs, 21 frees, 8,505 bytes allocated
+==52391== 
+==52391== All heap blocks were freed -- no leaks are possible
+==52391== 
+==52391== For counts of detected and suppressed errors, rerun with: -v
+==52391== Use --track-origins=yes to see where uninitialised values come from
+==52391== ERROR SUMMARY: 40 errors from 7 contexts (suppressed: 0 from 0)

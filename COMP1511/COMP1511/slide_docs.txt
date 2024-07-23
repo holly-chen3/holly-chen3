@@ -1,0 +1,112 @@
+[COMP1511 Extension Work]
+
+Write a summary of how you made the changes that you did:
+
+[E1:Summary] {{{
+The changes which I have implemented allow me to rotate between day and
+ night mode. 
+I did this by changing my main function and adding in the negative values
+that the user types, into the dark map. I did an absolute function so 
+that the values will still be positive when added to the dark map. 
+Furthermore, I added a realm switch where the switch determines whether 
+it is in the dark realm (night-time mode) or in the light realm (day-time 
+mode). When realm_switch equals to 0, it is in light realm and when it 
+equals 1, it is in dark realm. 
+In addition, for every function I made sure that they differentiated 
+between the normal 'map' and the 'dark_map', so that they would not 
+perform their functions in the wrong realm. I differentiated using the 
+realm_switch again.  
+For game_win_checker, I made sure that the game is won only when both 
+maps are empty. For game_lose_checker, I made sure that the game can be 
+lost in either realms, using realm_switch to identify the two maps.
+For printing the map, when realm_switch = 0, I made sure that it printed 
+the light map, and when realm_switch = 1, I made sure that it printed the 
+dark map. 
+}}}
+
+Write two tests to test your implementation of Extension 1 ("Night Realm").
+
+[E1:Test 1] {{{
+2
+1 2 1
+7 3 -1
+3
+3
+3
+2
+3
+3
+3
+}}}
+[E1:Test 2] {{{
+4
+9 10 1
+8 7 5
+9 10 -6
+8 10 -1
+1 1
+2
+3
+4 1
+1 1
+2
+}}}
+
+===========================================================================
+
+Write a summary of how you made the changes that you did:
+
+[E2:Summary] {{{
+Firstly, I made sure that the night realm was not integrating with the 
+mirror extension by creating a integer called value_two, where when 
+value_two = 1, when there is a value of 2 on the map, it will always
+print out only the normal map. 
+I created a function called laser_mirror. In this function, when the 
+laser hits the mirror first and not other stones or tnt, the mirror will 
+shoot the laser in both directions perpendicular to the direction of the 
+laser before. The mirror can only shoot one block on each direction. 
+Since there are cases where the mirror shoots a tnt block or another 
+mirror block, I made another function called complex_mirror. In this 
+function, I determined all the cases and created if statements for every 
+case. If the first mirror shot at two other mirror blocks above and below it I made sure that those two new mirrors also had the same mirror 
+property. If the blocks shot by the two new mirror blocks were also 
+mirrors, the mirror would not refract again, that is to say it will not 
+destroy blocks perpendicular to it. Considering this, I added this case 
+as an if statement, making the involved blocks EMPTY. Another property 
+of the mirror that I observed from the reference is that if the first 
+mirror shoots at another mirror and a stone, then the second mirror will 
+double the attack power of the first and destroy two blocks instead of 
+one in the opposite direction. It will also shoot horizontally the one 
+block on either side of it. I added this case into my code, taking into 
+account both cases, when map[laser_y - 1][j] = 2 or when map[laser_y + 1]
+[j] = 2. Furthermore, I added a case when the mirror hits a tnt and a 
+stone the tnt will double the attack power of the mirror again and 
+destroy two blocks instead of one. If the mirror hits a tnt and another 
+mirror, the tnt will block the double power given by the second mirror, 
+so that everything behind the tnt will not get destroyed. The second 
+mirror will still reflect the laser again horizontally, destroying one 
+block on either side of it. This was another case that I included. 
+Finally, if the mirror destroys two tnts then those tnts will have the 
+same effect as a normal stone. 
+}}}
+
+Write two tests to test your implementation of Extension 2 ("Mirror Blocks").
+
+[E2:Test 1] {{{
+4
+7 7 2
+8 7 5
+6 7 1
+5 7 1
+3
+2
+}}}
+[E2:Test 2] {{{
+5
+7 7 2
+6 7 5
+8 7 2
+8 8 1
+8 6 1
+2
+}}}

@@ -1,0 +1,169 @@
+#! /usr/bin/env python3
+
+
+"""
+COMP3311
+23T1
+Assignment 2
+Pokemon Database
+
+Written by: HOLLY CHEN z5359932
+Written on: 7/04/2023
+
+Possible Evolutions
+
+Given the name of a pokemon,
+display a list of all the pokemon that could evolve into the given pokemon,
+and a list of all the pokemon that the given pokemon could evolve into.
+"""
+
+
+import sys
+import psycopg2
+import helpers
+
+
+### Constants
+USAGE = f"Usage: {sys.argv[0]} <Pokemon Name>"
+
+
+### Globals
+db = None
+Pokemon_Name = None
+
+
+### Command-line args
+if len(sys.argv) != 2:
+    print(USAGE, file=sys.stderr)
+    sys.exit(1)
+Pokemon_Name = helpers.clean(sys.argv[1])
+
+idofname_qry = '''
+select p.id from pokemon p 
+where (p.name = %s)
+'''
+
+preevolution_qry = '''
+select distinct p.* from pokemon p
+join evolutions e on (e.pre_evolution = p.id)
+where (e.post_evolution = %s::_pokemon_id)
+order by p.id
+'''
+
+postevolution_qry = '''
+select distinct p.* from pokemon p 
+join evolutions e on (e.post_evolution = p.id)
+where (e.pre_evolution = %s::_pokemon_id)
+order by p.id
+'''
+
+requirement_qry = '''
+select e.id, er.inverted, r.id, r.assertion from requirements r 
+join evolution_requirements er on (er.requirement = r.id)
+join evolutions e on (er.evolution = e.id)
+where (e.pre_evolution = %s::_pokemon_id)
+and (e.post_evolution = %s::_pokemon_id)
+order by e.id, er.inverted, r.id
+'''
+
+def reqlist(requirements) -> list[str]:
+	req_list = []
+	prev = 0
+	curr = 0
+	for req in requirements:
+		curr = req[0]
+		if (prev == 0):
+			prev = curr
+			continue
+		if (prev == curr):
+			req_list.append('AND')
+		else:
+			req_list.append('OR')
+		prev = curr
+	return req_list
+
+def printrequirements(req_list, requirements):
+	binary = 0
+	for i,req in enumerate(req_list):
+		if ((req == 'OR') & (i % 2 == 1) & (i != (len(requirements) - 1))):
+			binary = 1
+	if (binary == 1):
+		binarytreeprint(req_list, requirements)
+	else: 
+		normalprint(req_list, requirements)
+	print()
+    	
+def binarytreeprint(req_list, requirements):
+	i = 0
+	for requirement in requirements:
+		print("				", end = '')
+		if (requirement[1] == True):
+			print("NOT ", end = '')
+		print(f"{requirement[3]}")
+		if (i == (len(requirements) - 1)):
+			break
+		req = req_list[i]	
+		if ((req == 'OR') & (i % 2 == 1) & (i != (len(requirements) - 2))):
+			print(f"		{req}")
+		else:
+			print(f"			{req}")
+		i = i + 1
+     
+def normalprint(req_list, requirements):
+	i = 0
+	for requirement in requirements:
+		print("			", end = '')
+		if (requirement[1] == True):
+			print("NOT ", end = '')
+		print(f"{requirement[3]}")
+		if (i < len(requirements) - 1):
+			print(f"		{req_list[i]}")
+		i = i + 1
+    
+def main():
+	cur = db.cursor()
+	cur.execute(idofname_qry, [Pokemon_Name])
+	pokemon_id = cur.fetchone()
+	if (pokemon_id is None):
+		print(f"'{Pokemon_Name}' isn't a Pokemon that exists.", file = sys.stderr)
+		return
+	cur.execute(preevolution_qry, [pokemon_id])
+	preevolutions = cur.fetchall()
+	if (preevolutions == []):
+		print(f"'{Pokemon_Name}' doesn't have any pre-evolutions.")
+		print()
+	else: 
+		print(f"'{Pokemon_Name}' can evolve from:")
+	for preevolution in preevolutions:
+		print(f"	'{preevolution[1]}' when the following requirements are satisfied:")
+		cur.execute(requirement_qry, [preevolution[0], pokemon_id])
+		requirements = cur.fetchall()
+		req_list = reqlist(requirements)
+		printrequirements(req_list, requirements)
+	cur.execute(postevolution_qry, [pokemon_id])
+	postevolutions = cur.fetchall()
+	if (postevolutions == []):
+		print(f"'{Pokemon_Name}' doesn't have any post-evolutions.")
+		print()
+	else: 
+		print(f"'{Pokemon_Name}' can evolve into:")
+	for postevolution in postevolutions:
+		print(f"	'{postevolution[1]}' when the following requirements are satisfied:")
+		cur.execute(requirement_qry, [pokemon_id, postevolution[0]])
+		requirements = cur.fetchall()
+		req_list = reqlist(requirements)
+		printrequirements(req_list, requirements)
+
+if __name__ == '__main__':
+    try:
+        db = psycopg2.connect(dbname="ass2")
+        main()
+    except psycopg2.Error as err:
+        print("DB error: ", err)
+    except Exception as err:
+        print("Internal Error: ", err)
+        raise err
+    finally:
+        if db is not None:
+            db.close()
+    sys.exit(0)

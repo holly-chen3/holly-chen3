@@ -1,0 +1,26 @@
+Question 1
+
+(a) What is the maximum input size that can be processed? Justify your
+    answer.
+The maximum input size that can be processed is approximately 20. 
+2^10 compared to 2^10 * 1000 = 2^20. 1000 is approximately equal to 2^10 which is
+1024. Therefore, it is 2^10 * 2^10 = 2^20.
+
+
+(b) Which of the two algorithms is more efficient? Justify your answer.
+Quad search is more efficient, as it will perform the task in O(log(base 4)n) time.
+This is compared to the binary search which only performs one comparison each time, 
+thus making the time complexity O(log(base 2)n).
+
+
+(c) What are the time complexities of fnA() and fnB() in terms of a and
+    b? Justify your answer.
+
+The time complexity for fnA() is O(b - a) time. This is because of the recursion 
+in the function is fnA(arr, a + 1, b). This means that the a will go up by one until 
+it reaches b. Thus, the function will be called O(b - a) times.
+
+The time complexity for fnB() is O((b - a) ^ 2) time. This is because the function calls 
+fnA(), which has a time complexity of O(b - a), and then calls itself recursively 
+b - a times. Multiplying the two together gives O((b - a) ^2).
+

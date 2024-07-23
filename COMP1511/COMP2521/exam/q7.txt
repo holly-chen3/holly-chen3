@@ -1,0 +1,24 @@
+Question 7
+
+(a) How many items are examined in searching for the key 42? Justify
+    your answer.
+
+4. 9, 20, 31, and 42 will be examined. They will be in the index 9 slot
+in the table. 
+
+(b) How many items are examined in searching for the key 111? Justify
+    your answer.
+
+10. 100 % 11 = 1. Thus this is the last number inputted in the index 1 in the 
+table. Before 100, there was 9 more numbers there. Therefore, adding on the 100, there
+are 10 numbers in the index 1. To search for the key 111, we do 111 % 11 = 1. Thus, 
+we search the index 1, and examine ten numbers until we realise 111 is not there.
+
+(c) What is the worst-case search cost after N total items have been
+    inserted? Justify your answer.
+
+10 + N % 11. Since we inserted 100, the index 1 has the most numbers within it. 
+Therefore, we start there. Now, looking at numbers that will be put in after 100: 
+111, 122, 133, 144. This corresponds to how many numbers will be inside index 1: 
+11, 12, 13, 14. Therefore, the worst search cost is 10 + N % 11.
+

@@ -1,0 +1,176 @@
+#! /usr/bin/env python3
+
+
+"""
+COMP3311
+23T1
+Assignment 2
+Pokemon Database
+
+Written by: HOLLY CHEN z5359932
+Written on: 9/04/2023
+
+Encounter Summary
+
+Print a summary of all the Pokemon that can be encountered at a given location in a given game
+"""
+
+
+import sys
+import psycopg2
+import helpers
+
+
+### Constants
+USAGE = f"Usage: {sys.argv[0]} <Location> <Game>"
+
+
+### Globals
+db = None
+Location = None
+Game = None
+
+
+### Command-line args
+if len(sys.argv) != 3:
+    print(USAGE, file=sys.stderr)
+    sys.exit(1)
+Location = helpers.clean(sys.argv[1])
+Game     = helpers.clean(sys.argv[2])
+
+pokemon_qry = '''
+select p.name, p.first_type, p.second_type, e.rarity, 
+(e.levels).min, (e.levels).max, e.id from pokemon p
+left join encounters e on (e.occurs_with = p.id)
+left join locations l on (e.occurs_at = l.id)
+left join games g on (l.appears_in = g.id)
+where (l.name = %s) 
+and (g.name = %s)
+order by e.rarity desc, p.name, (e.levels).max
+'''
+
+egg_qry = '''
+select eg.name from pokemon p 
+join in_group i on (i.pokemon = p.id)
+join egg_groups eg on (eg.id = i.egg_group)
+where (p.name = %s)
+order by eg.name
+'''
+
+ability_qry = '''
+select a.name from pokemon p 
+join knowable_abilities k on (k.known_by = p.id)
+join abilities a on (k.knows = a.id)
+where (p.name = %s) 
+and (k.hidden = false)
+order by a.name
+'''
+
+type_qry = '''
+select t.name from types t 
+where (t.id = %s)
+'''
+
+requirement_qry = '''
+select distinct r.assertion, er.inverted from encounters e
+join encounter_requirements er on (er.encounter = e.id)
+join requirements r on (r.id = er.requirement)
+where (e.id = %s::integer)
+order by r.assertion
+'''
+
+location_qry = '''
+select * from locations l 
+where (l.name = %s)
+'''
+
+name_qry = '''
+select * from games g
+where (g.name = %s)
+'''
+
+locgame_qry = '''
+select l.* from locations l 
+join games g on (l.appears_in = g.id)
+where (l.name = %s)
+and (g.name = %s)
+'''
+
+def printegg_ability(li):
+	new_list = []
+	for item in li:
+		new_list.append(item[0])
+	print(*new_list, sep = ', ')
+	
+def print_requirements(li):
+	for item in li:
+		print("\t\t", end = '')
+		if (item[1] == True):
+			print("Not ", end = '')
+		print(item[0])
+
+def main():
+	cur = db.cursor()
+	cur.execute(location_qry, [Location])
+	location_info = cur.fetchone()
+	cur.execute(name_qry, [Game])
+	g_name = cur.fetchone()
+	cur.execute(locgame_qry, [Location, Game])
+	loc_game = cur.fetchone()
+	if (location_info is None):
+		print(f"'{Location}' isn't a location in the Pokemon series.", file = sys.stderr)
+		return
+	elif (g_name is None):
+		print(f"'Pokemon {Game}' isn't a game in the Pokemon series.", file = sys.stderr)
+		return
+	elif (loc_game is None):
+		print(f"'{Location}' isn't in 'Pokemon {Game}'.", file = sys.stderr)
+		return
+	print()
+	print(f"In 'Pokemon {Game}' at '{Location}' the following Pokemon can be Encountered:")
+	print()
+	
+	cur.execute(pokemon_qry, [Location, Game])
+	pokemon_info = cur.fetchall()
+	for info in pokemon_info:
+		print(f"{info[0]}:")
+		cur.execute(type_qry, [info[1]])
+		first_type = cur.fetchone()
+		print(f"\tType: {first_type[0]}", end = '')
+		cur.execute(type_qry, [info[2]])
+		second_type = cur.fetchone()
+		if (second_type is None):
+			print()
+		else:
+			print(f"/{second_type[0]}")
+		print(f"\tRarity: {info[3]}%")
+		print(f"\tLevels: min {info[4]}, max {info[5]}")
+		cur.execute(egg_qry, [info[0]])
+		eggs = cur.fetchall()
+		if (eggs is not None):
+			print("\tEgg Groups: ", end = '')
+			printegg_ability(eggs)
+		cur.execute(ability_qry, [info[0]])
+		abilities = cur.fetchall()
+		if (abilities is not None):
+			print("\tAbilities: ", end = '')
+			printegg_ability(abilities)
+		print("\tEncounter Requirements:")
+		cur.execute(requirement_qry, [info[6]])
+		requirements = cur.fetchall()
+		print_requirements(requirements)
+		print()
+
+if __name__ == '__main__':
+    try:
+        db = psycopg2.connect(dbname="ass2")
+        main()
+    except psycopg2.Error as err:
+        print("DB error: ", err)
+    except Exception as err:
+        print("Internal Error: ", err)
+        raise err
+    finally:
+        if db is not None:
+            db.close()
+    sys.exit(0)

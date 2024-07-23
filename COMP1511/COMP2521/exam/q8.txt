@@ -1,0 +1,11 @@
+Question 8
+
+Which of the given statements about tries (A, B, C or D) is false?
+Briefly explain why the statement you selected is false.
+
+
+B is false. In a standard trie, there are many words that can be prefixes 
+of another word, since the trie works like that. For example, the word 
+'extraordinary' has the prefix 'extra'. In the trie, the a in extra will 
+be red representing the end of a word, and then it will continue down, with 
+'ordinary' until it reaches the y and stops. 

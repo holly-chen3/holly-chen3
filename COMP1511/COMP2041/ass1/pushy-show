@@ -1,0 +1,48 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-show [commit]:filename 
+#
+#  DESCRIPTION
+# 	The pushy-show should print the contents of the specified filename as of the specified commit. 
+#
+#  Written by HOLLY CHEN (z5359932)
+baseFile=$(basename "$0")
+if [ ! -d .pushy ]
+then
+	echo "pushy-show: error: pushy repository directory .pushy not found" 1>&2
+	exit 1
+elif [ "$#" -ne 1 ] || ! echo "$1" | grep -Eq ':'
+then
+	echo "usage: pushy-show <commit>:<filename>" 1>&2
+	exit 1
+fi
+cd .pushy || exit 1
+branchName=$(sed -n '1p' .HEAD)
+numStr=$(echo "$1" | cut -d':' -f1)
+filename=$(echo "$1" | cut -d':' -f2)
+if [ "$numStr" = '' ]
+then
+	cd .index || exit 1
+	if [ ! -f "$filename" ]
+	then
+		echo "$baseFile: error: '$filename' not found in index" 1>&2
+		exit 1
+	fi
+	cat "$filename"
+else
+	num=$((numStr))
+	if [ ! -d "$branchName/$num" ] 2>/dev/null
+	then
+		echo "$baseFile: error: unknown commit '$num'" 1>&2
+		exit 1
+	fi
+	cd "$branchName/$num" || exit 1
+	if [ ! -f "$filename" ]
+	then
+		echo "$baseFile: error: '$filename' not found in commit $num" 1>&2
+		exit 1
+	fi
+	cat "$filename"
+fi
+cd ../../.. || exit 1
+exit 0

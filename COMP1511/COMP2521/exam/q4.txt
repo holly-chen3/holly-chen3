@@ -1,0 +1,13 @@
+Question 4
+
+Which of the given algorithms could have been used to construct the
+mininum spanning tree? Justify your answer.
+
+
+Kruskal's algorithm, since it considers edges in increasing order and 
+puts the lowest weighted edge into the minimum spanning tree if there is no cycle in the tree 
+if it is inserted.
+
+This means that it can insert the edge even if it is not connected yet with the rest of the 
+minimum spanning tree. This is shown in the example, with A-E and C-D edges not connecting but
+being inputted as edges. 

@@ -1,0 +1,84 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-checkout [branch-name]
+#
+#  DESCRIPTION
+# 	pushy-checkout switches branches.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+oldBranchName=$(sed -n '1p' .pushy/.HEAD)
+branchName=$1
+baseFile=$(basename "$0")
+if [ ! -d .pushy ]
+then
+	echo "$baseFile: error: pushy repository directory .pushy not found" 1>&2
+	exit 1
+fi
+if [ "$#" -ne 1 ]
+then
+	echo "usage: $baseFile <branch>" 1>&2
+	exit 1
+fi
+if [ -f .pushy/.HEAD ]
+then
+	echo ".$branchName" > .pushy/.HEAD
+fi
+if [ ! -d ".pushy/.$branchName" ] 
+then
+	echo "$baseFile: error: unknown branch '$branchName'" 1>&2
+	exit 1
+fi
+# add current files in the directory to the branch
+if [ ! -f ".pushy/$oldBranchName/commits" ] >/dev/null
+then
+	num=1
+else 
+	num=$(wc -l < .pushy/"$oldBranchName"/commits)
+fi
+for filename in *
+do
+	if [ ! -f "$filename" ]
+	then
+		continue
+	fi
+	if expr "$filename" : ".*pushy.*" >/dev/null
+	then
+		continue
+	fi
+	if [ ! -f ".pushy/$oldBranchName/$((num - 1))/$filename" ] >/dev/null || ([ -f ".pushy/$oldBranchName/$((num - 1))/$filename" ] >/dev/null && ! diff  ".pushy/$oldBranchName/$((num - 1))/$filename" "$filename" >/dev/null)
+	then
+		cp -f "$filename" ".pushy/.uncommitted/$filename" || exit 1
+	else 
+		if [ -f ".pushy/.uncommitted/$filename" ]
+		then
+			rm ".pushy/.uncommitted/$filename"
+		fi
+		cp -f "$filename" ".pushy/$oldBranchName/$filename" && rm "$filename" || exit 1
+	fi
+done
+for filename in ".pushy/.$branchName"/*
+do
+	if [ "$filename" = ".pushy/.$branchName/commits" ]
+	then
+		continue
+	fi
+	name=$(echo "$filename" | sed -E 's/.*\///g')
+	
+	if [ ! -f "$filename" ]
+	then
+		continue
+	fi
+	cp -r "$filename" "$name"
+done
+if [ "$(ls -A .pushy/.uncommitted)" ]
+then
+	for filename in .pushy/.uncommitted/*
+	do
+		name=$(echo "$filename" | sed -E 's/.*\///g')
+		cp -f "$filename" "$name"
+	done
+fi
+
+echo "Switched to branch '$branchName'"
+exit 0

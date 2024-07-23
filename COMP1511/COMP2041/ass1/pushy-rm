@@ -1,0 +1,98 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-rm [--force] [--cached] <filenames>
+#
+#  DESCRIPTION
+# 	pushy-rm removes a file from the index, or, 
+#	from the current directory and the index.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+branchName=$(sed -n '1p' .pushy/.HEAD)
+baseFile=$(basename "$0")
+if [ ! -d .pushy ]
+then
+	echo "$baseFile: error: pushy repository directory .pushy not found" 1>&2
+	exit 1
+elif [ $# -lt 1 ]
+then
+	echo "usage: $baseFile [--force] [--cached] <filenames>" 1>&2
+	exit 1
+fi 
+tmp=""
+command_func() {
+	is_forced=$1
+	is_cached=$2
+	filename=$3
+	if [ "$is_cached" = "true" ] && [ "$is_forced" = "true" ] && [ -f .pushy/".index/$filename" ]
+	then
+		rm .pushy/".index/$filename"
+		return 0
+	fi
+	if [ "$is_forced" = "true" ] 
+	then
+		if [ -f "$filename" ]
+		then
+			rm "$filename"
+		fi
+		if [ -f .pushy/".index/$filename" ]
+		then
+			rm .pushy/".index/$filename"
+		fi
+		return 0
+	fi
+	lineNum=$(wc -l < ".pushy/$branchName/commits")
+	num=$((lineNum - 1))
+	if ! diff .pushy/".index/$filename" "$filename" >/dev/null && ! diff .pushy/".index/$filename" .pushy/"$branchName/$num/$filename" >/dev/null
+	then
+		echo "$baseFile: error: '$filename' in index is different to both the working file and the repository" 1>&2
+		exit 1
+	fi 
+	if [ "$is_cached" = "true" ]
+	then
+		rm .pushy/".index/$filename"
+	else 
+		if [ ! -f .pushy/"$branchName/$num/$filename" ] >/dev/null || ! diff .pushy/".index/$filename" .pushy/"$branchName/$num/$filename" >/dev/null
+		then
+			echo "$baseFile: error: '$filename' has staged changes in the index" 1>&2
+			exit 1
+		fi
+		if ! diff "$filename" .pushy/"$branchName/$num/$filename" >/dev/null
+		then
+			echo "$baseFile: error: '$filename' in the repository is different to the working file" 1>&2
+			exit 1
+		fi
+		rm "$filename"
+		rm .pushy/".index/$filename"
+	fi
+	return 0
+}
+forced="false"
+cached="false"
+for com in "$@"
+do
+	if [ "$com" = "--force" ]
+	then
+		forced="true"
+		shift
+		continue
+	elif [ "$com" = "--cached" ]
+	then
+		cached="true"
+		shift
+		continue
+	fi
+	if [ ! -f ".pushy/.index/$com" ]
+	then
+		echo "$baseFile: error: '$com' is not in the pushy repository" 1>&2
+		exit 1
+	else 
+		tmp="$tmp $com"
+	fi
+	shift
+done
+for name in $tmp
+do
+	command_func "$forced" "$cached" "$name"
+done
+exit 0

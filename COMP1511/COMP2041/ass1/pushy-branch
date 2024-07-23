@@ -1,0 +1,92 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-branch [-d] [branch-name]
+#
+#  DESCRIPTION
+# 	pushy-branch either creates a branch, deletes a branch, 
+# 	or lists current branch names.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+oldBranchName=$(sed -n '1p' .pushy/.HEAD)
+baseFile=$(basename "$0")
+if [ ! -d .pushy ]
+then
+	echo "$baseFile: error: pushy repository directory .pushy not found" 1>&2
+	exit 1
+fi
+if [ "$#" -gt 2 ] || [ "$#" -eq 2 ] && [ "$1" != "-d" ]
+then
+	echo "usage: $baseFile [-d] <branch>" 1>&2
+	exit 1
+fi
+copyFiles() {
+	for filename in *
+	do
+		cp -f "$filename" .pushy/"$1"/"$filename"
+	done
+}
+if [ ! -f ".pushy/$oldBranchName/commits" ] >/dev/null
+then
+	echo "$baseFile: error: this command can not be run until after the first commit" 1>&2
+	exit 1
+fi
+if [ "$#" -eq 0 ]
+then
+	for branch in .pushy/.refs/.heads/*
+	do
+		rBranch=$(echo "$branch" | cut -d"/" -f4)
+		echo "$rBranch"
+	done
+elif [ "$#" -eq 1 ]
+then
+	branchName=$1
+	if [ "$branchName" = "-d" ]
+	then
+		echo "$baseFile: error: branch name required" 1>&2
+		exit 1
+	fi
+	if [ -f .pushy/.refs/.heads/"$branchName" ]
+	then
+		echo "$baseFile: error: branch '$branchName' already exists" 1>&2
+		exit 1
+	else
+		cd .pushy/.refs/.heads || exit 1
+		echo "new" > "$branchName"
+		cd ../../.. || exit 1
+		cp -r .pushy/.master .pushy/".$branchName"
+		copyFiles ."$branchName"
+	fi
+elif [ "$#" -eq 2 ]
+then
+	branchName=$2
+	if [ "$branchName" = "-d" ]
+	then
+		echo "$baseFile: error: branch name required" 1>&2
+		exit 1
+	fi
+	if [ "$branchName" = "master" ]
+	then
+		echo "$baseFile: error: can not delete branch '$branchName': default branch" 1>&2
+		exit 1
+	fi
+	if [ ".$branchName" = "$oldBranchName" ]
+	then
+		echo "$baseFile: error: can not delete branch '$branchName': current branch" 1>&2
+		exit 1
+	fi
+	if [ ! -f .pushy/.refs/.heads/"$branchName" ]
+	then
+		echo "$baseFile: error: branch '$branchName' doesn't exist" 1>&2
+		exit 1
+	fi
+	if [ "$1" = "-d" ] && [ -f .pushy/.refs/.heads/"$branchName" ]
+	then
+		cd .pushy/.refs/.heads || exit 1
+		rm "$branchName"
+		cd ../../.. || exit 1
+		rm -r .pushy/".$branchName"
+		echo "Deleted branch '$branchName'"
+	fi
+fi
+exit 0

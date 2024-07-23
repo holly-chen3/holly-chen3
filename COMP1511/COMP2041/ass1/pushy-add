@@ -1,0 +1,37 @@
+#!/bin/dash
+#  SYNOPSIS
+# 	pushy-add filenames...
+#
+#  DESCRIPTION
+# 	The pushy-add command adds the contents of one or more files to the index.
+#
+#  Written by HOLLY CHEN (z5359932)
+
+baseFile=$(basename "$0")
+if [ "$#" -eq 0 ]
+then
+	echo "usage: pushy-add <filenames>" 1>&2
+	exit 1
+fi
+if [ ! -d .pushy ] 
+then
+	echo "$baseFile: error: pushy repository directory .pushy not found" 1>&2
+	exit 1
+fi
+for filename in "$@"
+do
+	if [ ! -e "$filename" ] && [ ! -e .pushy/.index/"$filename" ]
+	then
+		echo "$baseFile: error: can not open '$filename'" 1>&2
+		exit 1
+	elif [ -e "$filename" ] && [ ! -f "$filename" ]
+	then
+		echo "$baseFile: error: '$filename' is not a regular file"
+		exit 1
+	elif [ ! -f "$filename" ] && [ -f .pushy/.index/"$filename" ]
+	then
+		rm .pushy/.index/"$filename"
+		continue
+	fi
+	cp -f "$filename" .pushy/.index
+done
